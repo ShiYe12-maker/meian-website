@@ -1,0 +1,51 @@
+---
+layout: base.njk
+title: 历史时间轴
+permalink: /timeline/
+---
+
+<div class="container">
+  {% set title = "梅庵团史时间轴" %}
+  {% set subtitle = "追溯梅庵在中国青年运动史上的重要时刻" %}
+  {% include "section-header.njk" %}
+
+  {# 筛选条 #}
+  <div class="filter-bar" id="timelineFilter">
+    <button class="filter-bar__btn active" data-period="">全部</button>
+    <button class="filter-bar__btn" data-period="建团初期">建团初期</button>
+    <button class="filter-bar__btn" data-period="团二大">团二大</button>
+    <button class="filter-bar__btn" data-period="抗战时期">抗战时期</button>
+    <button class="filter-bar__btn" data-period="建国后">建国后</button>
+  </div>
+
+  {# 时间轴 #}
+  <div class="timeline" id="timeline">
+    {% for event in timeline %}
+      <div class="timeline__item" data-period="{{ event.period }}">
+        <div class="card" style="padding:20px;">
+          <div class="timeline__date">{{ event.date }}</div>
+          <div class="timeline__title">{{ event.title }}</div>
+          <div class="timeline__desc">{{ event.description }}</div>
+          {% if event.relatedChars | length %}
+            <div class="timeline__chars">
+              {% for rid in event.relatedChars %}
+                {% for c in characters %}
+                  {% if c.id == rid %}
+                    <a href="/characters/{{ c.id }}/" title="{{ c.name }}" class="timeline__char">
+                      <img src="/final/{{ c.id }}.png"
+                           alt="{{ c.name }}"
+                           loading="lazy"
+                           onerror="this.onerror=null; this.src='/final/{{ c.id }}.jpg';">
+                    </a>
+                  {% endif %}
+                {% endfor %}
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<script defer src="/js/timeline.js"></script>
