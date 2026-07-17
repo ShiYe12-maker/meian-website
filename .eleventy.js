@@ -10,6 +10,12 @@ module.exports = function (eleventyConfig) {
     return JSON.stringify(obj);
   });
 
+  // findById filter: 按ID查找人物（用于关系图谱等）
+  eleventyConfig.addFilter("findById", function (arr, id) {
+    if (!arr) return null;
+    return arr.find(function (item) { return item.id === id; });
+  });
+
   // 忽略工具目录和文档
   eleventyConfig.ignores.add("docs/");
   eleventyConfig.ignores.add(".claude/");
