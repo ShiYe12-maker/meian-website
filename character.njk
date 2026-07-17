@@ -1,0 +1,61 @@
+---
+layout: base.njk
+pagination:
+  data: characters
+  size: 1
+  alias: char
+permalink: /characters/{{ char.id }}/
+---
+
+<div class="container">
+  <div class="char-detail">
+    {# 左：修复前后对比 #}
+    <div>
+      {% set charId = char.id %}
+      {% set charName = char.name %}
+      {% include "comparison-viewer.njk" %}
+    </div>
+
+    {# 右：人物信息 #}
+    <div>
+      <h1 class="char-detail__name">{{ char.name }}</h1>
+      {% if char.birth and char.death %}
+        <p class="char-detail__years">{{ char.birth }} – {{ char.death }}</p>
+      {% endif %}
+
+      <div class="char-detail__bio">
+        {{ char.biography | safe }}
+      </div>
+
+      {% if char.tags and char.tags.length %}
+        <div class="char-detail__related">
+          {% for tag in char.tags %}
+            <span style="display:inline-block;padding:4px 12px;background:var(--color-bg);border-radius:16px;font-size:0.85rem;margin-right:8px;">#{{ tag }}</span>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {# 关联人物 #}
+      {% set relatedIds = [] %}
+      {% for rel in relations %}
+        {% if rel.source == char.id %}{% set relatedIds = (relatedIds.push(rel.target), relatedIds) %}{% endif %}
+        {% if rel.target == char.id %}{% set relatedIds = (relatedIds.push(rel.source), relatedIds) %}{% endif %}
+      {% endfor %}
+
+      {% if relatedIds | length %}
+        <h3 style="margin-top:24px; color:var(--color-green);">关联人物</h3>
+        <div class="char-detail__related">
+          {% for rid in relatedIds %}
+            {% for c in characters %}
+              {% if c.id == rid %}
+                <a href="/characters/{{ c.id }}/">{{ c.name }}</a>
+              {% endif %}
+            {% endfor %}
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <a href="/characters/" class="back-link">← 返回人物列表</a>
+</div>

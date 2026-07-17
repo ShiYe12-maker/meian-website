@@ -1,0 +1,55 @@
+---
+layout: base.njk
+title: 历史人物
+permalink: /characters/
+---
+
+<div class="container">
+  {% set title = "历史人物" %}
+  {% set subtitle = "点击人物查看AI修复对比与生平简介" %}
+  {% include "section-header.njk" %}
+
+  {# 搜索和筛选 #}
+  <div class="search-bar" style="margin-bottom:32px;">
+    <input type="text" class="search-bar__input" id="searchInput" placeholder="搜索人物姓名...">
+    <select class="search-bar__input" id="periodFilter" style="max-width:160px;">
+      <option value="">全部时期</option>
+      <option value="建团初期">建团初期</option>
+      <option value="团二大">团二大</option>
+      <option value="抗战时期">抗战时期</option>
+      <option value="建国后">建国后</option>
+    </select>
+  </div>
+
+  <div class="grid-4" id="charGrid">
+    {% for char in characters %}
+      <div class="char-item" data-name="{{ char.name }}" data-period="{{ char.period }}">
+        {% set character = char %}
+        {% include "character-card.njk" %}
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+  (function() {
+    var search = document.getElementById('searchInput');
+    var period = document.getElementById('periodFilter');
+    var items = document.querySelectorAll('.char-item');
+
+    function filter() {
+      var q = (search.value || '').toLowerCase();
+      var p = period.value || '';
+      items.forEach(function(item) {
+        var name = (item.dataset.name || '').toLowerCase();
+        var per = item.dataset.period || '';
+        var matchName = name.includes(q);
+        var matchPeriod = !p || per === p;
+        item.style.display = (matchName && matchPeriod) ? '' : 'none';
+      });
+    }
+
+    search.addEventListener('input', filter);
+    period.addEventListener('change', filter);
+  })();
+</script>
