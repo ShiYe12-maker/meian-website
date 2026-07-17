@@ -1,0 +1,54 @@
+---
+layout: base.njk
+title: 人物关系
+permalink: /relations/
+---
+
+<div class="container" style="padding-top:20px; padding-bottom:20px;">
+  {% set title = "人物关系图谱" %}
+  {% set subtitle = "拖动节点探索梅庵历史人物之间的关联" %}
+  {% include "section-header.njk" %}
+
+  <div class="relations-container" id="relationsChart"></div>
+
+  <div class="relations-legend">
+    <div class="relations-legend__item">
+      <span class="relations-legend__line relations-legend__line--solid"></span> 师生
+    </div>
+    <div class="relations-legend__item">
+      <span class="relations-legend__line relations-legend__line--dashed"></span> 同志
+    </div>
+    <div class="relations-legend__item">
+      <span class="relations-legend__line relations-legend__line--dotted"></span> 同届
+    </div>
+  </div>
+</div>
+
+{# 侧边栏 #}
+<div class="sidebar" id="charSidebar">
+  <button class="sidebar__close" id="sidebarClose">✕</button>
+  <div id="sidebarContent"></div>
+</div>
+
+{# 注入图谱数据供 relations-graph.js 使用 #}
+<script>
+  var GRAPH_DATA = {
+    characters: {{ characters | dump | safe }},
+    relations: {{ relations | dump | safe }}
+  };
+</script>
+
+{# ECharts CDN (国内镜像回退) #}
+<script>
+  (function() {
+    var s = document.createElement('script');
+    s.src = 'https://cdn.bootcdn.net/ajax/libs/echarts/5.5.0/echarts.min.js';
+    s.onerror = function() {
+      var fallback = document.createElement('script');
+      fallback.src = 'https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js';
+      document.head.appendChild(fallback);
+    };
+    document.head.appendChild(s);
+  })();
+</script>
+<script defer src="/js/relations-graph.js"></script>

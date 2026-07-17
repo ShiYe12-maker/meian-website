@@ -5,6 +5,11 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("final");
   eleventyConfig.addPassthroughCopy("inputs");
 
+  // dump filter: JSON.stringify for Nunjucks templates
+  eleventyConfig.addFilter("dump", function (obj) {
+    return JSON.stringify(obj);
+  });
+
   // 忽略工具目录和文档
   eleventyConfig.ignores.add("docs/");
   eleventyConfig.ignores.add(".claude/");
