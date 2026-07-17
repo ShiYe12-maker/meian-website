@@ -1,0 +1,43 @@
+{# 修复前后并排对比组件
+   @param {string} charId - 人物ID
+   @param {string} charName - 人物姓名
+#}
+<div class="comparison">
+  <figure class="comparison__side">
+    <img
+      src="/inputs/inputsF/{{ charId }}.jpg"
+      alt="{{ charName }}原始历史照片"
+      loading="lazy"
+      onclick="openLightbox(this.src)"
+    >
+    <figcaption class="comparison__label">修复前</figcaption>
+  </figure>
+  <figure class="comparison__side">
+    <img
+      src="/final/{{ charId }}.png"
+      alt="{{ charName }}AI修复后照片"
+      loading="lazy"
+      onclick="openLightbox(this.src)"
+      onerror="this.onerror=null; this.src='/final/{{ charId }}.jpg';"
+    >
+    <figcaption class="comparison__label">修复后</figcaption>
+  </figure>
+</div>
+
+{# 全局灯箱（由base.njk包含的脚本控制） #}
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightboxImg" src="" alt="">
+</div>
+
+<script>
+  function openLightbox(src) {
+    document.getElementById('lightboxImg').src = src;
+    document.getElementById('lightbox').classList.add('open');
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+  }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeLightbox();
+  });
+</script>

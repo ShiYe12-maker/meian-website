@@ -1,0 +1,23 @@
+{# 人物卡片组件
+   @param {object} character - 人物数据对象
+   @param {string} baseUrl - 链接基础路径（默认 "/characters/"）
+#}
+{% set restoredExt = "" %}
+{% set hasPng = false %}
+{# 11ty中无法直接检查文件系统，扩展名探测在构建时通过fallback处理 #}
+
+<a href="/characters/{{ character.id }}/" class="card char-card">
+  <img
+    class="char-card__thumb"
+    src="/final/{{ character.id }}.png"
+    alt="{{ character.name }}修复后照片"
+    loading="lazy"
+    onerror="this.onerror=null; this.src='/final/{{ character.id }}.jpg';"
+  >
+  <div class="card__body">
+    <div class="char-card__name">{{ character.name }}</div>
+    {% if character.birth and character.death %}
+      <div class="char-card__years">{{ character.birth }} – {{ character.death }}</div>
+    {% endif %}
+  </div>
+</a>
