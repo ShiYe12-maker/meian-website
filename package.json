@@ -1,0 +1,12 @@
+{
+  "name": "meian-website",
+  "version": "1.0.0",
+  "description": "梅庵薪火·数字回响 — AI影像修复展示网站",
+  "scripts": {
+    "build": "npx @11ty/eleventy",
+    "serve": "npx @11ty/eleventy --serve"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.0.0"
+  }
+}
