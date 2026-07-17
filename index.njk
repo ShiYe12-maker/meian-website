@@ -1,0 +1,67 @@
+---
+layout: base.njk
+title: 首页
+---
+
+{# Hero #}
+<section class="hero" style="background-image: url('/inputs/IMG_20260704_151528.jpg');">
+  <div class="hero__content">
+    <h1 class="hero__title">梅庵薪火 · 数字回响</h1>
+    <p class="hero__subtitle">基于AI影像修复的梅庵团史数字化活化实践</p>
+  </div>
+  <div class="hero__arrow" onclick="document.querySelector('.container').scrollIntoView({behavior:'smooth'})">↓</div>
+</section>
+
+<div class="container">
+
+  {# 项目简介 #}
+  {% set title = "项目简介" %}
+  {% set subtitle = "以AI技术活化红色记忆，用数字方式传承梅庵精神" %}
+  {% include "section-header.njk" %}
+  <div class="grid-3">
+    <div class="card">
+      <div class="card__body" style="text-align:center; padding:32px 16px;">
+        <div style="font-size:2.5rem; margin-bottom:12px;">🖼️</div>
+        <h3 class="card__title">AI影像修复</h3>
+        <p class="card__text">利用深度学习模型对梅庵早期团史照片进行去噪、高清重建与色彩还原</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card__body" style="text-align:center; padding:32px 16px;">
+        <div style="font-size:2.5rem; margin-bottom:12px;">📜</div>
+        <h3 class="card__title">历史色彩考证</h3>
+        <p class="card__text">结合历史文献记载，对服饰、徽章、建筑环境色进行精准考证还原</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card__body" style="text-align:center; padding:32px 16px;">
+        <div style="font-size:2.5rem; margin-bottom:12px;">🌐</div>
+        <h3 class="card__title">数字云端传播</h3>
+        <p class="card__text">将修复成果转化为线上展示网站，让红色故事在网络空间广泛传播</p>
+      </div>
+    </div>
+  </div>
+
+  {# 精选对比 #}
+  {% set title = "修复前后对比" %}
+  {% set subtitle = "AI技术让模糊的历史影像重获新生" %}
+  {% include "section-header.njk" %}
+
+  {% set featuredIds = ["mzd", "dzx", "zqb", "lyn"] %}
+  <div class="grid-4">
+    {% for fid in featuredIds %}
+      {% for c in characters %}
+        {% if c.id == fid %}
+          <a href="/characters/{{ fid }}/" class="card" style="padding:8px;">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:4px;">
+              <img src="/inputs/inputsF/{{ fid }}.jpg" alt="{{ c.name }}原图" loading="lazy" style="aspect-ratio:3/4; object-fit:cover; background:#e0e0e0;">
+              <img src="/final/{{ fid }}.png" alt="{{ c.name }}修复" loading="lazy" style="aspect-ratio:3/4; object-fit:cover; background:#e0e0e0;" onerror="this.onerror=null; this.src='/final/{{ fid }}.jpg';">
+            </div>
+            <div style="text-align:center; padding:8px 0 4px; font-size:0.9rem; font-weight:600;">{{ c.name }}</div>
+          </a>
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
+  </div>
+
+</div>
