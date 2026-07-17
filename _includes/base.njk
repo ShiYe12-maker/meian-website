@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% if title %}{{ title }} — {% endif %}梅庵薪火 · 数字回响</title>
+  <meta name="description" content="基于AI影像修复的梅庵团史数字化活化实践">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="nav__brand">梅庵薪火 · 数字回响</a>
+    <button class="nav__toggle" id="navToggle" aria-label="菜单">☰</button>
+    <ul class="nav__links" id="navLinks">
+      {% set navItems = [
+        { href: "/", label: "首页" },
+        { href: "/characters/", label: "历史人物" },
+        { href: "/timeline/", label: "时间轴" },
+        { href: "/relations/", label: "人物关系" },
+        { href: "/about/", label: "关于项目" }
+      ] %}
+      {% for item in navItems %}
+        <li>
+          <a href="{{ item.href }}"
+             {% if page.url == item.href %}class="active"{% endif %}>
+            {{ item.label }}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </nav>
+
+  <main>
+    {{ content | safe }}
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__brand">至善梅庵·AI薪传实践团</div>
+      <p>东南大学 2026 暑期社会实践</p>
+      <ul class="footer__links">
+        <li><a href="https://github.com" target="_blank" rel="noopener">GitHub</a></li>
+        <li><a href="https://www.seu.edu.cn/" target="_blank" rel="noopener">东南大学</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('navToggle').addEventListener('click', function() {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+  </script>
+</body>
+</html>
