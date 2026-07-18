@@ -18,11 +18,6 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Enable GitHub Pages (if needed)
-        uses: actions/deploy-pages@v4
-        with:
-          enablement: true
-
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -39,10 +34,12 @@ jobs:
         run: npx @11ty/eleventy --pathprefix "/${{ github.event.repository.name }}/"
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: "_site"
 
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          enablement: true
