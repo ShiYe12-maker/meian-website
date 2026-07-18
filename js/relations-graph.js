@@ -26,28 +26,31 @@
     // 从页面内嵌的全局数据构建图谱
     var chart = echarts.init(container);
 
-    // 构建节点
-    var nodes = GRAPH_DATA.characters.map(function (c) {
-      return {
-        id: c.id,
-        name: c.name,
-        symbolSize: 20 + c.importance * 8,
-        itemStyle: { color: '#527158' },
-        emphasis: {
-          itemStyle: { color: '#fbc707' },
-        },
-        // 携带额外数据供侧边栏使用
-        birth: c.birth,
-        death: c.death,
-        summary: c.summary,
-      };
-    });
+    // 构建节点（仅历史人物参与关系图谱，文物不显示）
+    var nodes = GRAPH_DATA.characters
+      .filter(function (c) { return c.type !== 'artifact'; })
+      .map(function (c) {
+        return {
+          id: c.id,
+          name: c.name,
+          symbolSize: 20 + c.importance * 8,
+          itemStyle: { color: '#527158' },
+          emphasis: {
+            itemStyle: { color: '#fbc707' },
+          },
+          // 携带额外数据供侧边栏使用
+          birth: c.birth,
+          death: c.death,
+          summary: c.summary,
+        };
+      });
 
     // 构建边
     var lineStyleMap = {
       '师生': { type: 'solid' },
       '同志': { type: 'dashed' },
       '同届': { type: 'dotted' },
+      '亲属': { type: 'solid', color: '#fbc707' },
     };
 
     var links = GRAPH_DATA.relations.map(function (r) {

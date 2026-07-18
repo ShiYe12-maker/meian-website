@@ -357,6 +357,7 @@ a:hover {
 .relations-legend__line--solid { border-top: 2px solid #999; }
 .relations-legend__line--dashed { border-top: 2px dashed #999; }
 .relations-legend__line--dotted { border-top: 2px dotted #999; }
+.relations-legend__line--kin { border-top: 2px solid var(--color-gold); }
 
 /* === Sidebar === */
 .sidebar {

@@ -1,19 +1,25 @@
 ---
 layout: base.njk
-title: 历史人物
+title: 星火图志
 permalink: /characters/
 ---
 
 <div class="container">
-  {% set title = "历史人物" %}
-  {% set subtitle = "点击人物查看AI修复对比与生平简介" %}
+  {% set title = "星火图志" %}
+  {% set subtitle = "先驱人物与珍贵文物 · 点击查看AI修复对比与详细介绍" %}
   {% include "section-header.njk" %}
 
   {# 搜索和筛选 #}
   <div class="search-bar" style="margin-bottom:32px;">
-    <input type="text" class="search-bar__input" id="searchInput" placeholder="搜索人物姓名...">
+    <input type="text" class="search-bar__input" id="searchInput" placeholder="搜索名称...">
+    <select class="search-bar__input" id="typeFilter" style="max-width:140px;">
+      <option value="">全部类型</option>
+      <option value="person">历史人物</option>
+      <option value="artifact">历史文物</option>
+    </select>
     <select class="search-bar__input" id="periodFilter" style="max-width:160px;">
       <option value="">全部时期</option>
+      <option value="学堂时期">学堂时期</option>
       <option value="建团初期">建团初期</option>
       <option value="团二大">团二大</option>
       <option value="抗战时期">抗战时期</option>
@@ -23,7 +29,7 @@ permalink: /characters/
 
   <div class="grid-4" id="charGrid">
     {% for char in characters %}
-      <div class="char-item" data-name="{{ char.name }}" data-period="{{ char.period }}">
+      <div class="char-item" data-name="{{ char.name }}" data-period="{{ char.period }}" data-type="{{ char.type }}">
         {% set character = char %}
         {% include "character-card.njk" %}
       </div>
@@ -34,22 +40,27 @@ permalink: /characters/
 <script>
   (function() {
     var search = document.getElementById('searchInput');
+    var typeSel = document.getElementById('typeFilter');
     var period = document.getElementById('periodFilter');
     var items = document.querySelectorAll('.char-item');
 
     function filter() {
       var q = (search.value || '').toLowerCase();
+      var t = typeSel.value || '';
       var p = period.value || '';
       items.forEach(function(item) {
         var name = (item.dataset.name || '').toLowerCase();
+        var typ = item.dataset.type || '';
         var per = item.dataset.period || '';
         var matchName = name.includes(q);
+        var matchType = !t || typ === t;
         var matchPeriod = !p || per === p;
-        item.style.display = (matchName && matchPeriod) ? '' : 'none';
+        item.style.display = (matchName && matchType && matchPeriod) ? '' : 'none';
       });
     }
 
     search.addEventListener('input', filter);
+    typeSel.addEventListener('change', filter);
     period.addEventListener('change', filter);
   })();
 </script>

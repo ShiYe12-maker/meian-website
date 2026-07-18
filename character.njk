@@ -36,7 +36,7 @@ permalink: /characters/{{ char.id }}/
         </div>
       {% endif %}
 
-      {# 关联人物 #}
+      {# 关联条目 #}
       {% set relatedIds = [] %}
       {% for rel in relations %}
         {% if rel.source == char.id %}{% set relatedIds = (relatedIds.push(rel.target), relatedIds) %}{% endif %}
@@ -58,5 +58,5 @@ permalink: /characters/{{ char.id }}/
     </div>
   </div>
 
-  <a href="/characters/" class="back-link">← 返回人物列表</a>
+  <a href="/characters/" class="back-link">← 返回星火图志</a>
 </div>
