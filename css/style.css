@@ -475,15 +475,39 @@ a:hover {
   padding: 0 24px;
 }
 
+/* 书法风格标题字体栈：华文中宋/楷体系列 → 思源宋体 → 衬线兜底 */
 .hero__title {
-  font-size: 2.8rem;
-  font-weight: 800;
-  margin-bottom: 12px;
+  font-family: "STZhongsong", "华文中宋", "STKaiti", "华文楷体", "KaiTi", "楷体",
+    "Noto Serif SC", "Source Han Serif SC", "SimSun", serif;
+  font-size: 3.4rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  margin-bottom: 22px;
+  padding-bottom: 20px;
+  position: relative;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.45), 0 1px 3px rgba(0, 0, 0, 0.35);
+}
+
+/* 标题下金色装饰线 */
+.hero__title::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
 }
 
 .hero__subtitle {
+  font-family: "STZhongsong", "华文中宋", "STKaiti", "华文楷体", "KaiTi", "楷体",
+    "Noto Serif SC", "Source Han Serif SC", "SimSun", serif;
   font-size: 1.15rem;
-  opacity: 0.9;
+  letter-spacing: 0.35em;
+  text-indent: 0.35em;
+  opacity: 0.92;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
 }
 
 .hero__arrow {
@@ -658,7 +682,7 @@ a:hover {
     min-height: 360px;
   }
 
-  .hero__title { font-size: 1.8rem; }
+  .hero__title { font-size: 2.1rem; letter-spacing: 0.06em; }
 
   .grid-2, .grid-3, .grid-4 {
     grid-template-columns: repeat(2, 1fr);
