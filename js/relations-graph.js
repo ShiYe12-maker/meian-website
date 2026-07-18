@@ -92,10 +92,12 @@
           scale: 1.35,
         },
         force: {
-          repulsion: 350,
-          edgeLength: [140, 280],
-          gravity: 0.08,
+          initLayout: 'circular',
+          repulsion: 200,
+          edgeLength: [100, 200],
+          gravity: 0.3,
         },
+        center: ['50%', '50%'],
         lineStyle: {
           color: '#999',
           curveness: 0.08,
