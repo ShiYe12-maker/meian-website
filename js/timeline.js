@@ -1,55 +1,19 @@
 (function () {
-  // === 时期筛选 ===
-  var filterBar = document.getElementById('timelineFilter');
+  // === Intersection Observer 滚动动画 ===
   var items = document.querySelectorAll('.timeline__item');
 
-  if (filterBar) {
-    filterBar.addEventListener('click', function (e) {
-      var btn = e.target.closest('.filter-bar__btn');
-      if (!btn) return;
-
-      // 切换 active
-      filterBar.querySelectorAll('.filter-bar__btn').forEach(function (b) {
-        b.classList.remove('active');
+  var observer = new IntersectionObserver(
+    function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
       });
-      btn.classList.add('active');
+    },
+    { threshold: 0.2 }
+  );
 
-      var period = btn.dataset.period || '';
-      items.forEach(function (item) {
-        item.style.display = (!period || item.dataset.period === period) ? '' : 'none';
-      });
-
-      // 重新触发滚动动画
-      setTimeout(updateVisibility, 100);
-    });
-  }
-
-  // === Intersection Observer 滚动动画 ===
-  var observer = null;
-
-  function updateVisibility() {
-    // 断开旧 observer，避免重复观察导致泄漏
-    if (observer) {
-      observer.disconnect();
-    }
-
-    observer = new IntersectionObserver(
-      function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
-
-    items.forEach(function (item) {
-      if (item.style.display !== 'none') {
-        observer.observe(item);
-      }
-    });
-  }
-
-  updateVisibility();
+  items.forEach(function (item) {
+    observer.observe(item);
+  });
 })();

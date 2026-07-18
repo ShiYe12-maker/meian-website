@@ -9,19 +9,10 @@ permalink: /timeline/
   {% set subtitle = "追溯梅庵在中国青年运动史上的重要时刻" %}
   {% include "section-header.njk" %}
 
-  {# 筛选条 #}
-  <div class="filter-bar" id="timelineFilter">
-    <button class="filter-bar__btn active" data-period="">全部</button>
-    <button class="filter-bar__btn" data-period="建团初期">建团初期</button>
-    <button class="filter-bar__btn" data-period="团二大">团二大</button>
-    <button class="filter-bar__btn" data-period="抗战时期">抗战时期</button>
-    <button class="filter-bar__btn" data-period="建国后">建国后</button>
-  </div>
-
   {# 时间轴 #}
   <div class="timeline" id="timeline">
     {% for event in timeline %}
-      <div class="timeline__item" data-period="{{ event.period }}">
+      <div class="timeline__item">
         <div class="card" style="padding:20px;">
           <div class="timeline__date">{{ event.date }}</div>
           <div class="timeline__title">{{ event.title }}</div>

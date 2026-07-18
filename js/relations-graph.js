@@ -84,6 +84,13 @@
           draggable: true,
           data: nodes,
           links: links,
+          // 节点标签常显（不再需要悬停才显示人名）
+          label: {
+            show: true,
+            position: 'bottom',
+            fontSize: 12,
+            color: '#2c2c2c',
+          },
           force: {
             repulsion: 300,
             edgeLength: [120, 250],

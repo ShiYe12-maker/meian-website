@@ -9,7 +9,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("js");
   eleventyConfig.addPassthroughCopy("final");
   eleventyConfig.addPassthroughCopy("inputs/inputsF");
-  eleventyConfig.addPassthroughCopy("inputs/IMG_20260704_151528.jpg");
+  eleventyConfig.addPassthroughCopy("inputs/background.jpg");
 
   // dump filter: JSON.stringify for Nunjucks templates
   eleventyConfig.addFilter("dump", function (obj) {
