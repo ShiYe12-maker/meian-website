@@ -6,25 +6,37 @@
     container.innerHTML = '<p style="text-align:center;padding:60px;color:var(--color-text-light);">' + msg + '</p>';
   }
 
-  function initGraph() {
-    if (typeof echarts === 'undefined') { setTimeout(initGraph, 200); return; }
+  function init() {
+    if (typeof echarts === 'undefined') { setTimeout(init, 200); return; }
     if (typeof GRAPH_DATA === 'undefined') { fail('数据加载中...'); return; }
 
     var prefix = GRAPH_DATA.prefix || '/';
 
+    // 仅人物节点：小圆点 + 人名在下方紧贴
     var nodes = GRAPH_DATA.characters
       .filter(function (c) { return c.type !== 'artifact'; })
       .map(function (c) {
-        var size = 60;
         return {
-          id: c.id, name: c.name, symbolSize: size,
-          itemStyle: { color: '#527158', borderColor: '#3d5543', borderWidth: 2 },
-          // 携带侧边栏数据
-          birth: c.birth, death: c.death, summary: c.summary,
+          id: c.id,
+          name: c.name,
+          symbolSize: 28,
+          itemStyle: {
+            color: '#527158',
+            borderColor: '#3d5543',
+            borderWidth: 2,
+          },
+          emphasis: {
+            itemStyle: { color: '#fbc707', borderColor: '#d4a605' },
+            scale: 1.3,
+          },
+          birth: c.birth,
+          death: c.death,
+          summary: c.summary,
           image: c.image,
         };
       });
 
+    // 边：细线 + 小标签
     var lineStyleMap = {
       '师生': { type: 'solid' },
       '同志': { type: 'dashed' },
@@ -34,12 +46,20 @@
 
     var links = GRAPH_DATA.relations.map(function (r) {
       return {
-        source: r.source, target: r.target,
-        lineStyle: Object.assign({ color: '#aaa', width: 2 }, lineStyleMap[r.type] || {}),
+        source: r.source,
+        target: r.target,
+        lineStyle: Object.assign(
+          { color: '#aaa', width: 1, opacity: 0.6 },
+          lineStyleMap[r.type] || {}
+        ),
         label: {
-          show: true, formatter: r.type, fontSize: 11, color: '#333',
-          backgroundColor: 'rgba(255,255,255,0.9)', padding: [2, 6],
-          borderRadius: 3, borderColor: '#ccc', borderWidth: 1,
+          show: true,
+          formatter: r.type,
+          fontSize: 10,
+          color: '#666',
+          backgroundColor: 'rgba(255,255,255,0.85)',
+          padding: [1, 4],
+          borderRadius: 2,
         },
       };
     });
@@ -54,19 +74,35 @@
         },
       },
       series: [{
-        type: 'graph', layout: 'force', roam: true, draggable: true,
-        data: nodes, links: links,
-        label: { show: true, position: 'inside', fontSize: 11, fontWeight: 600, color: '#fff' },
-        emphasis: { focus: 'adjacency', scale: 1.2 },
-        force: { initLayout: 'circular', repulsion: 350, edgeLength: [160, 300], gravity: 0.2 },
+        type: 'graph',
+        layout: 'force',
+        roam: true,
+        draggable: true,
+        data: nodes,
+        links: links,
+        label: {
+          show: true,
+          position: 'bottom',
+          fontSize: 11,
+          fontWeight: 600,
+          color: '#2c2c2c',
+          distance: 4,
+        },
+        emphasis: { focus: 'adjacency' },
+        force: {
+          initLayout: 'circular',
+          repulsion: 600,
+          edgeLength: [200, 400],
+          gravity: 0.1,
+        },
         center: ['50%', '50%'],
-        lineStyle: { color: '#999', curveness: 0.1, width: 2, opacity: 0.8 },
+        lineStyle: { color: '#aaa', width: 1, opacity: 0.6, curveness: 0.05 },
       }],
     });
 
     window.addEventListener('resize', function () { chart.resize(); });
 
-    // 侧边栏（含人物照片）
+    // 侧边栏
     var sidebar = document.getElementById('charSidebar');
     var sidebarContent = document.getElementById('sidebarContent');
     var sidebarClose = document.getElementById('sidebarClose');
@@ -87,8 +123,10 @@
       }
     });
 
-    sidebarClose.addEventListener('click', function () { sidebar.classList.remove('open'); });
+    sidebarClose.addEventListener('click', function () {
+      sidebar.classList.remove('open');
+    });
   }
 
-  initGraph();
+  init();
 })();
