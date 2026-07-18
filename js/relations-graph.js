@@ -15,11 +15,10 @@
     var nodes = GRAPH_DATA.characters
       .filter(function (c) { return c.type !== 'artifact'; })
       .map(function (c) {
-        var size = 40 + c.importance * 10;
+        var size = 60;
         return {
           id: c.id, name: c.name, symbolSize: size,
-          itemStyle: { color: '#527158', borderColor: '#3d5543', borderWidth: 3 },
-          emphasis: { itemStyle: { color: '#fbc707', borderColor: '#d4a605' } },
+          itemStyle: { color: '#527158', borderColor: '#3d5543', borderWidth: 2 },
           // 携带侧边栏数据
           birth: c.birth, death: c.death, summary: c.summary,
           image: c.image,
@@ -57,11 +56,11 @@
       series: [{
         type: 'graph', layout: 'force', roam: true, draggable: true,
         data: nodes, links: links,
-        label: { show: true, position: 'bottom', fontSize: 12, fontWeight: 600, color: '#2c2c2c', distance: 6 },
-        emphasis: { focus: 'adjacency', scale: 1.35 },
-        force: { initLayout: 'circular', repulsion: 200, edgeLength: [100, 200], gravity: 0.3 },
+        label: { show: true, position: 'inside', fontSize: 11, fontWeight: 600, color: '#fff' },
+        emphasis: { focus: 'adjacency', scale: 1.2 },
+        force: { initLayout: 'circular', repulsion: 350, edgeLength: [160, 300], gravity: 0.2 },
         center: ['50%', '50%'],
-        lineStyle: { color: '#aaa', curveness: 0.08 },
+        lineStyle: { color: '#999', curveness: 0.1, width: 2, opacity: 0.8 },
       }],
     });
 
