@@ -4,7 +4,7 @@ title: 首页
 ---
 
 {# Hero #}
-<section class="hero" style="background-image: url('/inputs/IMG_20260704_151528.jpg');">
+<section class="hero" style="background-image: url('{{ '/inputs/IMG_20260704_151528.jpg' | url }}');">
   <div class="hero__content">
     <h1 class="hero__title">梅庵薪火 · 数字回响</h1>
     <p class="hero__subtitle">基于AI影像修复的梅庵团史数字化活化实践</p>
@@ -54,8 +54,8 @@ title: 首页
         {% if c.id == fid %}
           <a href="/characters/{{ fid }}/" class="card" style="padding:8px;">
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:4px;">
-              <img src="/inputs/inputsF/{{ fid }}.jpg" alt="{{ c.name }}原图" loading="lazy" style="aspect-ratio:3/4; object-fit:cover; background:#e0e0e0;">
-              <img src="/final/{{ fid }}.png" alt="{{ c.name }}修复" loading="lazy" style="aspect-ratio:3/4; object-fit:cover; background:#e0e0e0;" onerror="this.onerror=null; this.src='/final/{{ fid }}.jpg';">
+              <img src="{{ c.original }}" alt="{{ c.name }}原图" loading="lazy" style="aspect-ratio:3/4; object-fit:cover; background:#e0e0e0;">
+              <img src="{{ c.image }}" alt="{{ c.name }}修复" loading="lazy" style="aspect-ratio:3/4; object-fit:cover; background:#e0e0e0;">
             </div>
             <div style="text-align:center; padding:8px 0 4px; font-size:0.9rem; font-weight:600;">{{ c.name }}</div>
           </a>

@@ -1,9 +1,15 @@
+const { EleventyHtmlBasePlugin } = require("@11ty/eleventy");
+
 module.exports = function (eleventyConfig) {
-  // 复制静态资源到 _site/
+  // 自动为 HTML 中的 href/src 添加 pathPrefix（GitHub Pages 项目托管必需）
+  eleventyConfig.addPlugin(EleventyHtmlBasePlugin);
+
+  // 复制静态资源到 _site/（仅站点实际引用的资源）
   eleventyConfig.addPassthroughCopy("css");
   eleventyConfig.addPassthroughCopy("js");
   eleventyConfig.addPassthroughCopy("final");
-  eleventyConfig.addPassthroughCopy("inputs");
+  eleventyConfig.addPassthroughCopy("inputs/inputsF");
+  eleventyConfig.addPassthroughCopy("inputs/IMG_20260704_151528.jpg");
 
   // dump filter: JSON.stringify for Nunjucks templates
   eleventyConfig.addFilter("dump", function (obj) {
@@ -22,6 +28,8 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.ignores.add("**/.git/**");
 
   return {
+    // 默认无前缀；GitHub Actions 构建时通过 --pathprefix 覆盖
+    pathPrefix: "/",
     dir: {
       input: ".",
       output: "_site",

@@ -25,8 +25,15 @@
   }
 
   // === Intersection Observer 滚动动画 ===
+  var observer = null;
+
   function updateVisibility() {
-    var observer = new IntersectionObserver(
+    // 断开旧 observer，避免重复观察导致泄漏
+    if (observer) {
+      observer.disconnect();
+    }
+
+    observer = new IntersectionObserver(
       function (entries) {
         entries.forEach(function (entry) {
           if (entry.isIntersecting) {

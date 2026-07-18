@@ -2,6 +2,19 @@
 // TODO: 请团队成员将每个条目中的 name、birth、death、summary、biography 替换为真实历史资料
 // id 必须与 final/ 和 inputs/inputsF/ 中的文件名前缀一致
 
+const fs = require("fs");
+const path = require("path");
+
+// 构建时探测修复图扩展名（final/{id}.png 或 final/{id}.jpg）
+function restoredImage(id) {
+  for (const ext of ["png", "jpg"]) {
+    if (fs.existsSync(path.join(__dirname, "..", "final", `${id}.${ext}`))) {
+      return `/final/${id}.${ext}`;
+    }
+  }
+  return null;
+}
+
 module.exports = [
   {
     id: "dzx",
@@ -223,4 +236,8 @@ module.exports = [
     importance: 3,
     tags: [],
   },
-];
+].map((c) => ({
+  ...c,
+  image: restoredImage(c.id),
+  original: `/inputs/inputsF/${c.id}.jpg`,
+}));

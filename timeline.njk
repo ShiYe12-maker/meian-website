@@ -32,10 +32,9 @@ permalink: /timeline/
                 {% for c in characters %}
                   {% if c.id == rid %}
                     <a href="/characters/{{ c.id }}/" title="{{ c.name }}" class="timeline__char">
-                      <img src="/final/{{ c.id }}.png"
+                      <img src="{{ c.image }}"
                            alt="{{ c.name }}"
-                           loading="lazy"
-                           onerror="this.onerror=null; this.src='/final/{{ c.id }}.jpg';">
+                           loading="lazy">
                     </a>
                   {% endif %}
                 {% endfor %}

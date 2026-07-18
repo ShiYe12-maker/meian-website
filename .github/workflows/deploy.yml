@@ -31,7 +31,7 @@ jobs:
         run: npm ci
 
       - name: Build with 11ty
-        run: npx @11ty/eleventy
+        run: npx @11ty/eleventy --pathprefix "/${{ github.event.repository.name }}/"
 
       - name: Setup Pages
         uses: actions/configure-pages@v4

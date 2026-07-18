@@ -9,17 +9,19 @@ permalink: /relations/
   {% set subtitle = "拖动节点探索梅庵历史人物之间的关联" %}
   {% include "section-header.njk" %}
 
-  <div class="relations-container" id="relationsChart"></div>
+  <div style="position:relative;">
+    <div class="relations-container" id="relationsChart"></div>
 
-  <div class="relations-legend">
-    <div class="relations-legend__item">
-      <span class="relations-legend__line relations-legend__line--solid"></span> 师生
-    </div>
-    <div class="relations-legend__item">
-      <span class="relations-legend__line relations-legend__line--dashed"></span> 同志
-    </div>
-    <div class="relations-legend__item">
-      <span class="relations-legend__line relations-legend__line--dotted"></span> 同届
+    <div class="relations-legend">
+      <div class="relations-legend__item">
+        <span class="relations-legend__line relations-legend__line--solid"></span> 师生
+      </div>
+      <div class="relations-legend__item">
+        <span class="relations-legend__line relations-legend__line--dashed"></span> 同志
+      </div>
+      <div class="relations-legend__item">
+        <span class="relations-legend__line relations-legend__line--dotted"></span> 同届
+      </div>
     </div>
   </div>
 </div>
@@ -30,25 +32,15 @@ permalink: /relations/
   <div id="sidebarContent"></div>
 </div>
 
-{# 注入图谱数据供 relations-graph.js 使用 #}
+{# 注入图谱数据供 relations-graph.js 使用（prefix 用于 JS 侧构建站内链接） #}
 <script>
   var GRAPH_DATA = {
+    prefix: '{{ "/" | url }}',
     characters: {{ characters | dump | safe }},
     relations: {{ relations | dump | safe }}
   };
 </script>
 
-{# ECharts CDN (国内镜像回退) #}
-<script>
-  (function() {
-    var s = document.createElement('script');
-    s.src = 'https://cdn.bootcdn.net/ajax/libs/echarts/5.5.0/echarts.min.js';
-    s.onerror = function() {
-      var fallback = document.createElement('script');
-      fallback.src = 'https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js';
-      document.head.appendChild(fallback);
-    };
-    document.head.appendChild(s);
-  })();
-</script>
-<script defer src="/js/relations-graph.js"></script>
+{# 自托管 ECharts（避免 CDN 不可用） #}
+<script src="{{ '/js/vendor/echarts.min.js' | url }}"></script>
+<script defer src="{{ '/js/relations-graph.js' | url }}"></script>

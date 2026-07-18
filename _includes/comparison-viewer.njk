@@ -1,11 +1,12 @@
 {# 修复前后并排对比组件
-   @param {string} charId - 人物ID
+   @param {string} charOriginal - 原始照片路径
+   @param {string} charImage - 修复后照片路径
    @param {string} charName - 人物姓名
 #}
 <div class="comparison">
   <figure class="comparison__side">
     <img
-      src="/inputs/inputsF/{{ charId }}.jpg"
+      src="{{ charOriginal }}"
       alt="{{ charName }}原始历史照片"
       loading="lazy"
       onclick="openLightbox(this.src)"
@@ -14,17 +15,16 @@
   </figure>
   <figure class="comparison__side">
     <img
-      src="/final/{{ charId }}.png"
+      src="{{ charImage }}"
       alt="{{ charName }}AI修复后照片"
       loading="lazy"
       onclick="openLightbox(this.src)"
-      onerror="this.onerror=null; this.src='/final/{{ charId }}.jpg';"
     >
     <figcaption class="comparison__label">修复后</figcaption>
   </figure>
 </div>
 
-{# 全局灯箱（由base.njk包含的脚本控制） #}
+{# 灯箱（本组件内联，每页仅可包含一次） #}
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
   <img id="lightboxImg" src="" alt="">
 </div>

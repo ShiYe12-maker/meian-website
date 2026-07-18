@@ -1,23 +1,30 @@
 (function () {
+  var attempts = 0;
+  var MAX_ATTEMPTS = 25; // 约5秒后放弃轮询
+
   // 等待 ECharts 加载完成
   function init() {
+    var container = document.getElementById('relationsChart');
+    if (!container) return;
+
     if (typeof echarts === 'undefined') {
+      attempts++;
+      if (attempts >= MAX_ATTEMPTS) {
+        container.innerHTML = '<p style="text-align:center;padding:60px;">图表加载失败，请刷新重试</p>';
+        return;
+      }
       setTimeout(init, 200);
       return;
     }
 
-    var container = document.getElementById('relationsChart');
-    if (!container) return;
-
-    // 从页面内嵌的全局数据构建图谱
-    // 11ty 在 relations.njk 中通过 <script> 标签注入数据
-    var chart = echarts.init(container);
-
-    // 数据由模板注入为全局变量（见下方说明）
+    // 数据由模板注入为全局变量（见 relations.njk）
     if (typeof GRAPH_DATA === 'undefined') {
       container.innerHTML = '<p style="text-align:center;padding:60px;">关系图谱数据加载中...</p>';
       return;
     }
+
+    // 从页面内嵌的全局数据构建图谱
+    var chart = echarts.init(container);
 
     // 构建节点
     var nodes = GRAPH_DATA.characters.map(function (c) {
@@ -106,7 +113,7 @@
             ? '<div class="sidebar__years">' + d.birth + ' – ' + d.death + '</div>'
             : '') +
           '<div class="sidebar__summary">' + (d.summary || '暂无简介') + '</div>' +
-          '<a href="/characters/' + d.id + '/" class="sidebar__link">查看详情 →</a>';
+          '<a href="' + (GRAPH_DATA.prefix || '/') + 'characters/' + d.id + '/" class="sidebar__link">查看详情 →</a>';
         sidebar.classList.add('open');
       }
     });
